@@ -1,5 +1,6 @@
 import pandas as pd
 import re
+import numpy as np
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
@@ -56,3 +57,16 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 rf = RandomForestRegressor()
 rf.fit(X_train, y_train)
 print(f"\nCurrent score: {rf.score(X_test, y_test)}")
+
+# 3.4. Prediction
+# area (85 m2),
+# constraction_year (2015),
+# bedrooms (2),
+# garden (20 m2),
+# balcony_yes (1 - yes),
+# parking_yes (1 - yes),
+# furnished_yes(0 - no),
+# garage_yes (0 - no),
+# storage_yes (1 - yes)
+price = rf.predict([[85, 2015, 2, 20, 1, 1, 0, 0, 1]])
+print(f"\nPredicted price: {price}")
