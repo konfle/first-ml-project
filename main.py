@@ -1,12 +1,12 @@
 import pandas as pd
 import re
 
-# DATA COLLECTION
+# 1. DATA COLLECTION
 data = pd.read_csv("rent_apartments.csv")
 
 print(data)
 
-# DATA PREPARATION
+# 2. DATA PREPARATION
 print(data.dtypes)
 
 # encode object data types
@@ -30,4 +30,18 @@ for i in range(len(data_encoded)):
 
 print(f"Garden areas: {data_encoded.garden.unique()}")
 
-# MODEL BUILDING
+# 3. MODEL BUILDING
+# 3.1. Defining X (independent) and y (dependent) variables
+X = data_encoded[['area',
+                  'constraction_year',
+                  'bedrooms',
+                  'garden',
+                  'balcony_yes',
+                  'parking_yes',
+                  'furnished_yes',
+                  'garage_yes',
+                  'storage_yes']]
+y = data_encoded.rent
+
+print(f"Independent variables: {X}")
+print(f"Dependent variables: {y}")
