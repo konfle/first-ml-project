@@ -16,8 +16,8 @@ def prepare_data():
     # Encode columns
     data_encoded = encode_cat_cols(data)
     # Parse the garden column
-    df = parse_garden_col(data_encoded)
-    return df
+    data_frame = parse_garden_col(data_encoded)
+    return data_frame
 
 
 def encode_cat_cols(data):

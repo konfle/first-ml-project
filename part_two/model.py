@@ -13,9 +13,9 @@ def build_model():
     - None
     """
     # Load preprocessed dataset
-    df = prepare_data()
+    data_frame = prepare_data()
     # Identify X and y
-    x, y = get_x_and_y(df)
+    x, y = get_x_and_y(data_frame)
     # Split the dataset
     x_train, x_test, y_train, y_test = split_train_test(x, y)
     # Train model
