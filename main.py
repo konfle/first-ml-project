@@ -1,6 +1,8 @@
 import pandas as pd
 import re
 
+from sklearn.model_selection import train_test_split
+
 # 1. DATA COLLECTION
 data = pd.read_csv("rent_apartments.csv")
 
@@ -45,3 +47,6 @@ y = data_encoded.rent
 
 print(f"Independent variables: {X}")
 print(f"Dependent variables: {y}")
+
+# 3.2. Split the data set with test size 20%
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
