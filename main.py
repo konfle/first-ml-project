@@ -1,10 +1,12 @@
 import pandas as pd
 import re
 
+# DATA COLLECTION
 data = pd.read_csv("rent_apartments.csv")
 
 print(data)
 
+# DATA PREPARATION
 print(data.dtypes)
 
 # encode object data types
@@ -27,3 +29,5 @@ for i in range(len(data_encoded)):
         data_encoded.loc[i, "garden"] = int(re.findall(r'\d+', data_encoded.loc[i, "garden"])[0])
 
 print(f"Garden areas: {data_encoded.garden.unique()}")
+
+# MODEL BUILDING
