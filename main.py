@@ -1,9 +1,9 @@
 import pandas as pd
 import re
-import numpy as np
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import GridSearchCV
 
 # 1. DATA COLLECTION
 data = pd.read_csv("rent_apartments.csv")
@@ -68,5 +68,14 @@ print(f"\nCurrent score: {rf.score(X_test, y_test)}")
 # furnished_yes(0 - no),
 # garage_yes (0 - no),
 # storage_yes (1 - yes)
-price = rf.predict([[85, 2015, 2, 20, 1, 1, 0, 0, 1]])
-print(f"\nPredicted price: {price}")
+apartment_config = [85, 2015, 2, 20, 1, 1, 0, 0, 1]
+price = rf.predict([apartment_config])
+print(f"\nPredicted price: {price[0]}")
+
+# 3.5. Tuning Hyperparameters
+grid_space = dict(n_estimators=[100, 200, 300], max_depth=[3, 6, 9, 12])
+grid = GridSearchCV(rf, param_grid=grid_space, cv=5, scoring="r2")
+model_grid = grid.fit(X_train, y_train)
+print(f"Best hyperparameters are {model_grid.best_params_}, score={model_grid.best_score_}")
+best_hp_price = model_grid.best_estimator_.predict([apartment_config])
+print(f"Predicted price with best hyperparameters: {best_hp_price[0]}")
