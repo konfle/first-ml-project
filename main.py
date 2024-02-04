@@ -1,5 +1,6 @@
-import pandas as pd
 import re
+import pandas as pd
+import pickle as pk
 
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
@@ -70,12 +71,23 @@ print(f"\nCurrent score: {rf.score(X_test, y_test)}")
 # storage_yes (1 - yes)
 apartment_config = [85, 2015, 2, 20, 1, 1, 0, 0, 1]
 price = rf.predict([apartment_config])
-print(f"\nPredicted price: {price[0]}")
+print(f"\nPredicted price: {round(price[0], 2)}")
 
-# 3.5. Tuning Hyperparameters
+# 3.5. Tuning Hyperparameters (rv_v2)
 grid_space = dict(n_estimators=[100, 200, 300], max_depth=[3, 6, 9, 12])
 grid = GridSearchCV(rf, param_grid=grid_space, cv=5, scoring="r2")
 model_grid = grid.fit(X_train, y_train)
 print(f"Best hyperparameters are {model_grid.best_params_}, score={model_grid.best_score_}")
 best_hp_price = model_grid.best_estimator_.predict([apartment_config])
-print(f"Predicted price with best hyperparameters: {best_hp_price[0]}")
+print(f"Predicted price with best hyperparameters: {round(best_hp_price[0], 2)}")
+
+# 3.6. Models Management
+pk.dump(rf, open('models/rf_v1', 'wb'))
+rf_v1 = pk.load(open('models/rf_v1', 'rb'))
+price_from_saved_model = rf_v1.predict([apartment_config])
+print(f"Predicted price from saved model (rf_v1): {round(price_from_saved_model[0], 2)}")
+
+pk.dump(model_grid, open('models/rf_v2', 'wb'))
+rf_v2 = pk.load(open('models/rf_v2', 'rb'))
+price_from_saved_model = rf_v2.predict([apartment_config])
+print(f"Predicted price from saved model (rf_v2): {round(price_from_saved_model[0], 2)}")
