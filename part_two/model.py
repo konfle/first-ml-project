@@ -3,6 +3,10 @@ from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
 from preparation import prepare_data
 
+features_names = ['area', 'constraction_year', 'bedrooms',
+                  'garden', 'balcony_yes', 'parking_yes',
+                  'furnished_yes', 'garage_yes', 'storage_yes']
+
 
 def build_model():
     """
@@ -24,7 +28,7 @@ def build_model():
     score = evaluate_model(random_forest_model, x_test, y_test)
     print(f"Model score: {score}")
     # Save the model
-    save_model(random_forest_model)
+    save_model(random_forest_model, features_names)
 
 
 def get_x_and_y(data, col_x=None, col_y=None):
@@ -40,9 +44,7 @@ def get_x_and_y(data, col_x=None, col_y=None):
     - tuple: A tuple containing feature columns (X) and the target column (y).
     """
     if col_x is None:
-        col_x = ['area', 'constraction_year', 'bedrooms',
-                 'garden', 'balcony_yes', 'parking_yes',
-                 'furnished_yes', 'garage_yes', 'storage_yes']
+        col_x = features_names
     if col_y is None:
         col_y = "rent"
     return data[col_x], data[col_y]
@@ -95,14 +97,15 @@ def evaluate_model(model, x_test, y_test):
     return model.score(x_test, y_test)
 
 
-def save_model(model):
+def save_model(model, feature_names):
     """
     Save a trained model using pickle.
 
     Parameters:
     - model: The trained model to be saved.
+    - feature_names (list): List of feature names.
 
     Returns:
     - None
     """
-    pk.dump(model, open('../part_two/models/rf_v1', 'wb'))
+    pk.dump((model, feature_names), open('../part_two/models/rf_v1', 'wb'))
